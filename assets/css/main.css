@@ -2271,3 +2271,56 @@ button,
     border-top: 0;
     margin-top: 0;
     padding-top: 0; }
+
+/* ==============================================
+AJUSTE RESPONSIVE PARA EL BANNER (Móvil)
+============================================== */
+
+/* 1. Estilo base (Escritorio) - Se asegura que la imagen no sea gigante */
+#banner_mirada .image-container img {
+    width: 100%;
+    height: auto;
+    max-height: 500px; /* Altura máxima en PC para que no quede enorme */
+    object-fit: cover; /* Recorta la imagen para llenar el espacio sin deformarla */
+    border-radius: 6px; /* Un toque estético */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Sombra suave para darle profundidad */
+}
+
+/* 2. Estilo para Móviles y Tablets (Pantallas menores a 980px) */
+@media screen and (max-width: 980px) {
+    
+    /* Hacemos que el banner apile el contenido (Texto arriba, imagen abajo) */
+    #banner_mirada {
+        display: flex;
+        flex-direction: column; 
+        padding: 2em 1em; /* Menos relleno en móvil */
+        text-align: center; /* Centramos el texto */
+    }
+
+    #banner_mirada .content {
+        padding-right: 0; /* Quitamos el padding lateral derecho */
+        margin-bottom: 2em; /* Espacio entre texto e imagen */
+        width: 100%;
+    }
+
+    /* Ajuste específico de la IMAGEN en móvil */
+    #banner_mirada .image-container {
+        width: 100%;
+        display: flex;
+        justify-content: center; /* Centra la imagen horizontalmente */
+    }
+
+    #banner_mirada .image-container img {
+        width: 100%; 
+        max-width: 400px; /* IMPORTANTE: Evita que la imagen sea demasiado ancha en tablets */
+        max-height: 300px; /* IMPORTANTE: Limita la altura. Si es más alta, la recorta */
+        object-fit: cover; /* Mantiene la proporción, recorta los sobrantes */
+        margin: 0 auto; /* Asegura el centrado */
+    }
+    
+    /* Ajuste de tamaño de fuente del título en móvil para que no sea excesivo */
+    #banner_mirada h1 {
+        font-size: 2.5em;
+        line-height: 1.2;
+    }
+}
