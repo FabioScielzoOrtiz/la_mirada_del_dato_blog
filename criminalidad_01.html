@@ -6,22 +6,57 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <style>
-            /* Estilo extra para la caja de metodología */
-            .methodology-box {
-                background-color: #f4f4f4;
-                border-left: 5px solid #2c3e50;
-                padding: 1.5em;
-                margin: 2em 0;
-                font-size: 0.9em;
-                color: #555;
-            }
-            /* Estilo para el contenedor del gráfico interactivo */
+            /* ESTILOS ESPECÍFICOS PARA ESTE ARTÍCULO */
+
+            /* Contenedor del gráfico interactivo */
             .chart-container {
                 margin: 2em 0;
                 border: 1px solid #ddd;
                 border-radius: 4px;
                 overflow: hidden;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                background: white;
+            }
+
+            /* Estilo para el Desplegable de Metodología */
+            details.methodology-details {
+                background-color: #f4f4f4;
+                border-left: 5px solid #2c3e50;
+                margin: 2em 0;
+                padding: 0.5em 1em; /* Padding reducido cuando está cerrado */
+                font-size: 0.9em;
+                color: #555;
+                transition: all 0.3s ease;
+            }
+
+            details.methodology-details[open] {
+                padding: 1.5em; /* Padding normal cuando se abre */
+            }
+
+            summary.methodology-summary {
+                cursor: pointer;
+                font-weight: bold;
+                color: #2c3e50;
+                list-style: none; /* Quitar viñeta por defecto */
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            /* Estilo para el icono +/- del desplegable */
+            summary.methodology-summary::after {
+                content: '+'; 
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+
+            details[open] summary.methodology-summary::after {
+                content: '-';
+            }
+            
+            /* Ocultar triángulo por defecto en algunos navegadores */
+            summary.methodology-summary::-webkit-details-marker {
+                display: none;
             }
         </style>
     </head>
@@ -49,7 +84,7 @@
 
                                     <span class="image main"><img src="images/pic11.jpg" alt="Mapa de calor de seguridad global" /></span>
 
-                                    <p>Si uno enciende la televisión o abre Twitter a media tarde, la sensación es inequívoca: España se ha convertido en el Bronx de los años 80. Robos, agresiones y una supuesta ola de violencia parecen inundar las calles. Sin embargo, cuando apagamos el ruido y encendemos las bases de datos, la historia cambia radicalmente.</p>
+                                    <p>Si uno enciende la televisión o abre Twitter a media tarde, la sensación es inequívoca: España se ha convertido en territorio hostil. Robos, agresiones y una supuesta ola de violencia parecen inundar las calles. Sin embargo, cuando apagamos el ruido y encendemos las bases de datos, la historia cambia radicalmente.</p>
                                     
                                     <p>Para medir la seguridad real de un país, los criminólogos y científicos de datos no usamos los hurtos (que dependen de si la víctima denuncia o no), sino el indicador más robusto existente: <strong>la tasa de homicidios intencionados</strong>. Es el único delito donde la "cifra negra" es casi nula. Un cadáver es difícil de ocultar.</p>
 
@@ -59,11 +94,11 @@
                                     <p>Según los últimos datos consolidados de <strong>Eurostat y la UNODC</strong> (Oficina de Naciones Unidas contra la Droga y el Delito), España se sitúa sistemáticamente en el podio de los países más seguros del mundo. Con una tasa que oscila entre el 0,6 y el 0,7, estamos muy lejos de nuestros vecinos europeos.</p>
 
                                     <div class="chart-container">
-                                        <h3 style="text-align:center; padding-top:20px;">[Gráfico Interactivo: Tasa de Homicidios en el Mundo]</h3>
+                                        <iframe src="assets/plots/intentional_homicides_total.html" width="100%" height="500px" frameborder="0" scrolling="no" style="overflow: hidden;"></iframe>
                                         
-                                        <iframe src="assets/plots/intentional_homicides_total.html" width="100%" height="500px" frameborder="0" scrolling="no"></iframe>
-
-                                        <p style="text-align:center; font-size:0.8em; color:#888; padding-bottom:10px;">Fuente: Elaboración propia con datos de UNODC (United Nations Office on Drugs and Crime)</p>
+                                        <p style="text-align:center; font-size:0.8em; color:#888; padding: 10px 0;">
+                                            <em>Fuente: Elaboración propia con datos de UNODC (United Nations Office on Drugs and Crime)</em>
+                                        </p>
                                     </div>
 
                                     <p>Como se observa en el gráfico interactivo superior, la realidad comparada es sorprendente:</p>
@@ -80,17 +115,20 @@
                                     
                                     <p>El ladrón ya no te espera en la esquina con una navaja; te espera en un SMS fraudulento. Pero físicamente, España sigue siendo un oasis de seguridad en un mundo cada vez más convulso.</p>
 
-                                    <div class="methodology-box">
-                                        <h3>📂 Metodología y Fuentes</h3>
-                                        <p>Para este análisis se han cruzado las siguientes fuentes de datos públicas:</p>
-                                        <ul>
-                                            <li><strong>Datos de Criminalidad:</strong> Dataset <code>crim_off_cat</code> de Eurostat (actualizado 2023) y Global Study on Homicide de UNODC.</li>
-                                            <li><strong>Población:</strong> Datos censales oficiales de cada país para calcular las tasas por 100.000 habitantes.</li>
-                                            <li><strong>Código:</strong> El proceso de limpieza (ETL) y visualización está disponible en nuestro <a href="#">Repositorio de GitHub</a>.</li>
-                                        </ul>
-                                    </div>
+                                    <details class="methodology-details">
+                                        <summary class="methodology-summary">📂 Ver Metodología y Fuentes de Datos</summary>
+                                        <div style="margin-top: 1em;">
+                                            <p>Para garantizar la reproducibilidad de este análisis, se han utilizado las siguientes fuentes y procesos:</p>
+                                            <ul>
+                                                <li><strong>Datos de Criminalidad:</strong> Dataset <code>crim_off_cat</code> de Eurostat (actualizado 2023) y el <em>Global Study on Homicide</em> de UNODC.</li>
+                                                <li><strong>Población:</strong> Datos censales oficiales para el cálculo de tasas por 100.000 habitantes.</li>
+                                                <li><strong>Código:</strong> El proceso de limpieza (ETL) y visualización está disponible en el <a href="https://github.com/fabioscielzoortiz">Repositorio de GitHub</a> del proyecto.</li>
+                                            </ul>
+                                            <p style="font-size: 0.8em; margin-bottom:0;">*Nota: Los datos de 2024 son provisionales y están sujetos a revisiones por parte de los organismos oficiales.</p>
+                                        </div>
+                                    </details>
 
-                                </section>
+                            </section>
 
                         </div>
                     </div>
@@ -130,7 +168,7 @@
                                     <p><strong>Fabio Scielzo.</strong> Científico de Datos. Uso Python y R para contar historias que los Excel esconden.</p>
                                     <ul class="contact">
                                         <li class="icon solid fa-envelope"><a href="#">contacto@lamiradadeldato.com</a></li>
-                                        <li class="icon brands fa-github"><a href="#">github.com/fabioscielzoortiz</a></li>
+                                        <li class="icon brands fa-github"><a href="https://github.com/fabioscielzoortiz">github.com/fabioscielzoortiz</a></li>
                                     </ul>
                                 </section>
 
@@ -144,10 +182,10 @@
             </div>
 
         <script src="assets/js/jquery.min.js"></script>
-            <script src="assets/js/browser.min.js"></script>
-            <script src="assets/js/breakpoints.min.js"></script>
-            <script src="assets/js/util.js"></script>
-            <script src="assets/js/main.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
 
     </body>
 </html>
